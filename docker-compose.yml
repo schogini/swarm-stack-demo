@@ -1,0 +1,28 @@
+version: "3"
+services:
+
+  redis:
+    image: docker.io/redis:alpine
+    ports:
+      - "6379"
+    networks:
+      - votenet
+  vote:
+    image: docker.io/schogini/vote-app:p80
+    ports:
+      - "4000:80"
+    networks:
+      - votenet
+    depends_on:
+      - redis
+    deploy:
+      replicas: 3
+      # resources:
+      #   limits:
+      #     cpus: "0.1"
+      #     memory: 50M
+      # restart_policy:
+      #   condition: on-failure
+networks:
+  votenet:
+
